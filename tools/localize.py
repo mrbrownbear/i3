@@ -324,7 +324,12 @@ def main():
     for i, item in enumerate(resources, 1):
         dest = ROOT / item["path"]
         try:
-            size = fetch(item["url"], dest)
+            if item["path"] == "wp-content/plugins/gravityforms/assets/css/dist/theme-components.min__q_ab2767d24d.css":
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes(b"")
+                size = 0
+            else:
+                size = fetch(item["url"], dest)
             total += size
             print(f"[{i}/{len(resources)}] {item['path']} ({size} bytes)")
         except Exception as exc:
