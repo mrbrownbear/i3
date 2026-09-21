@@ -1,0 +1,23 @@
+"use strict";i3.use({"object":""});i3.object.extend({__name__:"i3-toggle",__constructor__:function(self,params){params=i3.extend(!0,{event:"click","affect-form":!1,callbacks:{show:null,hide:null,check:function(ev,params){if(params&&params['class']){if(i3.is(params['class'],'object'))
+return!i3(this).is("."+params['class']['in'].split(" ").join("."));else return!i3(this).is("."+params['class'].split(" ").join("."))}else{if(i3(self).is("input[type='checkbox'], input[type='radio']"))
+return i3(self).is(":checked");else return!i3(this).is(":visible")}}}},params);params.source=this.__target__(self,params.source,{contained:!0,'default':self});params.target=this.__target__(self,params.target,i3(self).attr('href'));if(params.value)
+params.callbacks.check=function(ev){return i3.inArray(i3(ev.target).val(),i3.is(params.value,'array')?params.value:[params.value])!==-1};if(params.label&&i3.is(params.label,'string'))
+params.label={"out":i3(self).html(),"in":params.label}
+var component=this;i3(params.source.node).on(this.__event__(params.event),function(ev){component.event.apply(component,[self,ev].concat([].slice.call(arguments).slice(1)))});this.params(params)},__show__:function(){var component=this;var params=this.params();if(params['source-class']){if(i3.is(params['source-class'],'object'))
+i3(params.source.node).removeClass(params['source-class'].out).addClass(params['source-class']['in']);else i3(params.source.node).addClass(params['source-class'])}
+if(params['class']){if(i3.is(params['class'],'object'))
+i3(params.target.node).removeClass(params['class'].out).addClass(params['class']['in']);else i3(params.target.node).addClass(params['class'])}else i3(params.target.node).show();if(params.label)
+i3(params.source.node).html(params.label['in']);if(params['affect-form'])
+i3(params.target.node).find(":input").removeAttr('disabled');if(i3.is(params.callbacks.show,'function'))
+params.callbacks.show.apply(component);i3(params.target.node).trigger(this.__event__('show'))},__hide__:function(){var component=this;var params=this.params();if(params['source-class']){if(i3.is(params['source-class'],'object'))
+i3(params.source.node).removeClass(params['source-class']['in']).addClass(params['source-class'].out);else i3(params.source.node).removeClass(params['source-class'])}
+if(params['class']){if(i3.is(params['class'],'object'))
+i3(params.target.node).removeClass(params['class']['in']).addClass(params['class'].out);else i3(params.target.node).removeClass(params['class'])}else i3(params.target.node).hide();if(params.label)
+i3(params.source.node).html(params.label.out);if(params['affect-form'])
+i3(params.target.node).find(":input").attr('disabled','disabled');if(i3.is(params.callbacks.hide,'function'))
+params.callbacks.hide.apply(component);i3(params.target.node).trigger(this.__event__('hide'))},event:function(self,ev){var component=this;var params=this.params();if(i3(self).is("a"))
+ev.preventDefault();if(params['class']){if(params.callbacks.check.apply(params.target.node,[ev,{'class':params['class']}]))
+this.__show__();else this.__hide__()}else{if(params.callbacks.check.apply(params.target.node,[ev]))
+this.__show__();else this.__hide__()}},__init__:function(){var component=this;var params=this.params();if(i3(params.target.node).is(":hidden"))
+this.__hide__();i3(params.target.node).off(this.__event__('show')).on(this.__event__('show'),function(event){if(i3.fn.slick)
+i3(this).find(".i3-slider.slick-slider").not(".slick-initialized").slick("reinit")})}})

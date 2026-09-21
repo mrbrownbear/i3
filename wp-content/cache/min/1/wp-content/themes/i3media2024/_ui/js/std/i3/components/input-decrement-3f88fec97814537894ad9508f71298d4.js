@@ -1,0 +1,5 @@
+"use strict";i3.object.extend({__name__:"i3-input-decrement",__events__:["click"],__constructor__:function(self,params){var component=this;params=i3.extend(!0,{target:undefined,},params);params.target=this.__target__(self,params.target,self.siblings().filter("input[type = 'text'], input[type = 'number']").first());this.params(params)},click:function(self,event){event.preventDefault();var params=this.params();if(!params.target.node||params.target.node.is(":disabled"))
+return!1;if(params.target.node.is("select")){var options=params.target.node.find("option");var selected=options.filter(":selected:first");options.removeAttr("selected").eq(Math.max(0,options.index(selected)-1)).attr("selected","selected");params.target.node.trigger("change");if($.fn.uniform)
+$.uniform.update(params.target.node)}else{var value=parseFloat(params.target.node.val())-parseFloat(params.target.node.attr('step')||1);if(params.target.node.attr("min")!==undefined)
+value=Math.max(parseFloat(params.target.node.attr("min")),value);if(params.target.node.attr("max")!==undefined)
+value=Math.min(parseFloat(params.target.node.attr("max")),value);params.target.node.val(value).trigger("change")}}})
