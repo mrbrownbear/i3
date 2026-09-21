@@ -150,14 +150,14 @@ def sanitize_html(path: Path, exact: dict, path_index: dict):
         body = tag.string or tag.get_text(" ", strip=False) or ""
         marker_text = (src + " " + body).lower()
         if any(m in marker_text for m in TRACKER_MARKERS):
-            tag.decompose()
+            tag.extract()
             continue
         if src and src.startswith(("http://", "https://", "//")):
             loc = local_url(src, exact, path_index)
             if loc:
                 tag["src"] = loc
             else:
-                tag.decompose()
+                tag.extract()
 
     for tag in list(soup.find_all("iframe")):
         src = tag.get("src", "")
@@ -166,7 +166,7 @@ def sanitize_html(path: Path, exact: dict, path_index: dict):
             if loc:
                 tag["src"] = loc
             else:
-                tag.decompose()
+                tag.extract()
 
     for tag in list(soup.find_all("link")):
         href = tag.get("href", "")
@@ -177,7 +177,7 @@ def sanitize_html(path: Path, exact: dict, path_index: dict):
             if loc:
                 tag["href"] = loc
             elif is_resource:
-                tag.decompose()
+                tag.extract()
 
     for tag in soup.find_all(True):
         for attr in RESOURCE_ATTRS:
@@ -219,7 +219,7 @@ def sanitize_html(path: Path, exact: dict, path_index: dict):
 
     for meta in soup.find_all("meta"):
         if str(meta.get("http-equiv", "")).lower() == "refresh":
-            meta.decompose()
+            meta.extract()
 
     head = soup.head
     if head:
